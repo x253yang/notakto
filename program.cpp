@@ -1,14 +1,10 @@
 //
 //  notakto.cpp
-//  Test
 //
 //  Created by Justin Yang on 2016-01-08.
-//  Copyright © 2016 Justin Yang. All rights reserved.
 //
 
 #include <iostream>
-
-char mq = 'n';
 
 const int c1[9] = {0,0,0,0,0,0,0,0,0};
 
@@ -464,7 +460,7 @@ void draw_game(struct game *g) {
         draw_board(g->cur->first, g->cur->depth, g->cur->dead);
         g->cur = g->cur->next;
     }
-    if (mq == 'y') {
+    if (/* DISABLES CODE */ (0)) {
         std::cout << "The misère quotient (a,b,c,d) for this game is: ";
         std::cout << g->mqa;
         std::cout << g->mqb;
@@ -605,8 +601,6 @@ int main(int argc, const char * argv[]) {
         std::cout << " boards. \n\n";
     } while (g.nb < 1);
     initialize_game(&g);
-    std::cout << "Enter y if you want the game to display the misère quotient.";
-    std::cin >> mq;
     std::cout << "Enter y if you want to play against the ai.";
     std::cin >> ai;
     
