@@ -1,5 +1,5 @@
 //
-//  program.cpp
+//  NOTAKTO Program
 //
 //  Created by Justin Yang on 2016-01-08.
 //
@@ -24,7 +24,7 @@ const int b1[9] = {1,0,1,0,0,0,0,0,0};
 const int b2[9] = {1,0,0,0,0,0,1,0,0};
 
 const int b3[9] = {1,0,0,0,1,0,0,0,0};
-const int b4[9] = {0,0,0,1,1,0,0,0,0};
+const int b4[9] = {0,0,1,0,1,0,0,0,0};
 
 const int b5[9] = {1,0,0,0,0,1,0,0,0};
 const int b6[9] = {1,0,0,0,0,0,0,1,0};
@@ -135,6 +135,9 @@ const int b29[9] = {1,1,0,0,0,0,1,0,1};
 const int b30[9] = {1,0,1,0,0,1,1,0,0};
 const int b31[9] = {1,0,1,1,0,0,0,0,1};
 const int b32[9] = {1,0,1,0,0,0,1,1,0};
+
+const int b41[9] = {1,0,1,0,1,0,0,1,0};
+const int b42[9] = {1,0,0,0,1,1,1,0,0};
 
 //const int a27[9] = {1,1,0,0,0,0,0,1,1};
 //const int a28[9] = {0,1,1,0,0,0,1,1,0};
@@ -332,7 +335,8 @@ void monoid(struct board *b) {
      equal9(b->first, b17) or equal9(b->first, b37) or
      equal9(b->first, b18) or equal9(b->first, b38) or
      equal9(b->first, b19) or equal9(b->first, b39) or
-     equal9(b->first, b20) or equal9(b->first, b40)) {
+     equal9(b->first, b20) or equal9(b->first, b40) or
+     equal9(b->first, b41) or equal9(b->first, b42)) {
         b->ma = 0;
         b->mb = 1;
         b->mc = 0;
@@ -545,12 +549,13 @@ void ai_move1(struct game *g) {
 void ai_move2(struct game *g) {
     int i = 9*g->nb;
     int r = rand()%i;
-    int bn = r/9;
-    g->cur = g->first;
+    int bn;
     while (i > 0) {
         i--;
+        bn = r/9;
+        g->cur = g->first;
         while (bn > 0) {
-            --bn;
+            bn--;
             g->cur = g->cur->next;
         }
         if (g->cur->dead == 1 or
@@ -558,7 +563,7 @@ void ai_move2(struct game *g) {
             r = (r+1)%(9*g->nb);
             continue;
         } else {
-            ai_move(g->cur, r);
+            ai_move(g->cur, r%9);
             int d = g->cur->depth;
             misère_quotient(g);
             g->cur = g->first;
@@ -573,14 +578,14 @@ void ai_move2(struct game *g) {
                 std::cout << "The AI has moved on board ";
                 std::cout << g->cur->depth;
                 std::cout << " on box ";
-                std::cout << r+1;
+                std::cout << r%9+1;
                 return;
             }
             else {
                 g->cur->first[r%9] = '_';
                 g->cur->dead = 0;
                 monoid(g->cur);
-                r = (r+1)%i;
+                r = (r+1)%(9*g->nb);
                 continue;
             }
         }
@@ -614,9 +619,9 @@ int main(int argc, const char * argv[]) {
         do {
             std::cout << "\nEnter 1 to be player 1, or 2 to be player 2.";
             std::cin >> player;
-            std::cout << "\nYou are player ";
-            std::cout << player;
         } while (player < 1 or player > 2);
+        std::cout << "\nYou are player ";
+        std::cout << player;
         if (diff == 1 and player == 1) {
             while (between_turns(&g)) {
                 draw_game(&g);
@@ -632,8 +637,8 @@ int main(int argc, const char * argv[]) {
             while (between_turns(&g)) {
                 ai_move1(&g);
                 player++;
-                draw_game(&g);
                 if(between_turns(&g) == 0) {break;};
+                draw_game(&g);
                 player_move(&g);
                 player++;
             }
@@ -653,8 +658,8 @@ int main(int argc, const char * argv[]) {
             while (between_turns(&g)) {
                 ai_move2(&g);
                 player++;
-                draw_game(&g);
                 if(between_turns(&g) == 0) {break;};
+                draw_game(&g);
                 player_move(&g);
                 player++;
             }
