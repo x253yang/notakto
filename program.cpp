@@ -1,5 +1,5 @@
 //
-//  notakto.cpp
+//  program.cpp
 //
 //  Created by Justin Yang on 2016-01-08.
 //
