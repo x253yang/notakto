@@ -6,6 +6,9 @@
 
 #include <iostream>
 
+//The following constants determine what board corresponds to which monoid. 0's represents blanks and 1's represent X's.
+//Only live (ie. no 3 X's in a row) boards are shown. Dead boards always correspond to 1.
+//The boards corresponding to a are commented out so they can be covered in the else case.
 const int c1[9] = {0,0,0,0,0,0,0,0,0};
 
 const int s1[9] = {0,0,0,0,1,0,0,0,0};
@@ -171,6 +174,8 @@ const int b40[9] = {0,1,1,1,0,0,1,1,0};
 //const int a40[9] = {1,1,0,1,0,1,0,1,1};
 //const int a41[9] = {0,1,1,1,0,1,1,1,0};
 
+//equal9 consumes two char arrays of length 9 and return 1 if they are equal or if one is equal to the reverse of the other, or 0 otherwise
+//running time O(1)
 int equal9(char *a1, const int *a2) {
     int i = 0;
     while (i < 9) {
@@ -193,6 +198,9 @@ int equal9(char *a1, const int *a2) {
     return 0;
 }
 
+//first corresponds to board 1, cur corresponds to the board currently active
+//nb represents the number of boards in the game
+//mqa, mqb, mqc, mqd represent the misère quotient of the game where mqa is the power of a, mqb is the power of b, and so on
 struct game {
     struct board *first;
     struct board *cur;
@@ -203,6 +211,11 @@ struct game {
     int mqd;
 };
 
+//dead is 1 if the board is dead and 0 otherwise
+//depth is the board number
+//first is a char array of length 9
+//ma, mb, mc, md represent the monoid corresponding to the board
+//next points to board number depth+1, or is null there is no depth+1 board
 struct board {
     int dead;
     int depth;
@@ -214,6 +227,8 @@ struct board {
     struct board *next;
 };
 
+//initialize_board creates a new empty board
+//running time O(1)
 void initialize_board(struct board *b, int cur) {
     b->first = new char[9] {'_','_','_','_','_','_','_','_','_'};
     b->depth = cur;
@@ -223,6 +238,8 @@ void initialize_board(struct board *b, int cur) {
     b->md = 0;
 }
 
+//initialize_game creates a new game with g->nb empty boards
+//running time O(g->nb)
 void initialize_game(struct game *g) {
     int i = 1;
     g->first = new struct board;
@@ -240,6 +257,7 @@ void initialize_game(struct game *g) {
     g->mqd = 0;
 }
 
+/* THIS FUNCTION IS UNUSED
 void destroy_board(struct board *b) {
     while(b) {
         destroy_board(b->next);
@@ -248,8 +266,10 @@ void destroy_board(struct board *b) {
         }
         delete b;
     }
-}
+}*/
 
+//dead takes a board b and if b is dead, changes b->dead to 1 and gives it the monoid 1
+//running time O(1)
 void dead(struct board *b) {
     if ((b->first[0] == 'X' and
          b->first[1] == 'X' and
@@ -283,6 +303,8 @@ void dead(struct board *b) {
         }
 }
 
+//monoid updates the monoid (ma, mb, mc, md) of board b based on the values in b->first
+//running time O(1)
 void monoid(struct board *b) {
     if (equal9(b->first, s1)) {
         b->ma = 0;
@@ -369,6 +391,8 @@ void monoid(struct board *b) {
     }
 }
 
+//make_move allows the player to choose a box to mark an X in given that they decided to move on board b
+//running time O(1)
 void make_move(struct board *b) {
     int move = 0;
     std::cout << "Which box will you put an x in?[1-9]\n";
@@ -383,7 +407,7 @@ void make_move(struct board *b) {
     if (b->dead == 0) {
         monoid(b);
     }
-    if (/* DISABLES CODE */ (0)) {
+    if (/* DISABLES CODE - CAN BE CHANGED TO 1 TO PRINT THE MONOID AS A STRING */ (0)) {
         std::cout << "The monoid (a,b,c,d) for this board is: ";
         std::cout << b->ma;
         std::cout << b->mb;
@@ -393,6 +417,8 @@ void make_move(struct board *b) {
     }
 }
 
+//misère_quotient updates the misère quotient of g (mqa, mqb, mqc, mqd) based on the monoids of the boards in g
+//running time: O(g->nb)
 void misère_quotient(struct game *g) {
     int i = g->nb;
     g->cur = g->first;
@@ -439,6 +465,8 @@ void misère_quotient(struct game *g) {
     }
 }
 
+//draw_board first prints the number of the board, if it is dead, and then prints a 3x3 grid of either 'X' or '_' based on the board b
+//running time O(n)
 void draw_board(char values[9], int depth, int dead) {
     std::cout << "\nBoard "; std::cout << depth;
     if (dead) {
@@ -456,6 +484,8 @@ void draw_board(char values[9], int depth, int dead) {
     std::cout << values[8]; std::cout << " \n";
 }
 
+//draw_game draws every board in g using the draw_board function
+//running time: O(g->nb)
 void draw_game(struct game *g) {
     int i = g->nb;
     g->cur = g->first;
@@ -464,7 +494,7 @@ void draw_game(struct game *g) {
         draw_board(g->cur->first, g->cur->depth, g->cur->dead);
         g->cur = g->cur->next;
     }
-    if (/* DISABLES CODE */ (0)) {
+    if (/* DISABLES CODE - CAN BE CHANGED TO 1 TO PRINT THE MISÈRE QUOTIENT AS A STRING */ (0)) {
         std::cout << "The misère quotient (a,b,c,d) for this game is: ";
         std::cout << g->mqa;
         std::cout << g->mqb;
@@ -474,6 +504,8 @@ void draw_game(struct game *g) {
     }
 }
 
+//ai_move places an X on board b in position p. Unlike make_move, the input is preset.
+//running time O(1)
 void ai_move(struct board *b, int p) {
     b->first[p] = 'X';
     dead(b);
@@ -482,6 +514,8 @@ void ai_move(struct board *b, int p) {
     }
 }
 
+//between_turns finds whether the game has ended or not. If it has (ie. all boards are dead), it returns 0 and 1 otherwise
+//running time O(g->nb)
 int between_turns(struct game *g) {
     misère_quotient(g);
     g->cur = g->first;
@@ -497,6 +531,8 @@ int between_turns(struct game *g) {
     }
 }
 
+//player_move lets the player input which board they want to move on. If they select a dead board, it returns 0 and 1 otherwise.
+//running time O(g->nb)
 int player_move(struct game *g) {
     g->cur = g->first;
     int bn = 0;
@@ -521,6 +557,9 @@ int player_move(struct game *g) {
     return 1;
 }
 
+//ai_move1 lets the AI randomly select a valid move to play, and then calls ai_move to make that move. It also prints the board and position they moved on.
+//ai_move1 is always used by the AI on easy mode, and by the AI on hard move if no winning moves are found
+//running time O(g->nb);
 void ai_move1(struct game *g) {
     int r = rand()%9;
     int b = rand()%g->nb;
@@ -547,6 +586,9 @@ void ai_move1(struct game *g) {
     std::cout << r+1;
 }
 
+//ai_move2 is used by the hard AI to find a random winning move, call ai_move to make the move, and prints the board and position it played on.
+//If no winning moves are found, ai_move1 is used to make a random move
+//running time O(sqr(g->nb))
 void ai_move2(struct game *g) {
     int i = 9*g->nb;
     int r = rand()%i;
@@ -599,6 +641,7 @@ int main(int argc, const char * argv[]) {
     int diff = 0;
     char ai = 'n';
     struct game g = {0,0,0,0,0,0,0};
+    //player enters the number of boards
     do {
         std::cout << "Enter a positive integer to be the number of boards.";
         std::cin >> g.nb;
@@ -607,6 +650,7 @@ int main(int argc, const char * argv[]) {
         std::cout << " boards. \n\n";
     } while (g.nb < 1);
     initialize_game(&g);
+    //player chooses the options (against ai or human, and if ai, whether they want to go first and the difficulty)
     std::cout << "Enter y if you want to play against the ai.";
     std::cin >> ai;
     
@@ -623,6 +667,7 @@ int main(int argc, const char * argv[]) {
         } while (player < 1 or player > 2);
         std::cout << "\nYou are player ";
         std::cout << player;
+        //The player and ai play until all boards are dead
         if (diff == 1 and player == 1) {
             while (between_turns(&g)) {
                 draw_game(&g);
@@ -666,13 +711,15 @@ int main(int argc, const char * argv[]) {
             }
         }
     } else {
+        //Two players play until all boards are dead
         while (between_turns(&g)) {
             draw_game(&g);
+            std::cout << "\nIt is player "; std::cout << (player+1)%2+1; std::cout << "'s turn\n";
             player_move(&g);
             player++;
         }
     }
-    
+    //The winner is determined
     draw_game(&g);
     if (player%2 == 0) {
         std::cout << "\nPLAYER 2 WINS!\n";
