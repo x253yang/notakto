@@ -383,7 +383,7 @@ void make_move(struct board *b) {
     if (b->dead == 0) {
         monoid(b);
     }
-    if (/* DISABLES CODE */ (1)) {
+    if (/* DISABLES CODE */ (0)) {
         std::cout << "The monoid (a,b,c,d) for this board is: ";
         std::cout << b->ma;
         std::cout << b->mb;
@@ -464,7 +464,7 @@ void draw_game(struct game *g) {
         draw_board(g->cur->first, g->cur->depth, g->cur->dead);
         g->cur = g->cur->next;
     }
-    if (/* DISABLES CODE */ (1)) {
+    if (/* DISABLES CODE */ (0)) {
         std::cout << "The misère quotient (a,b,c,d) for this game is: ";
         std::cout << g->mqa;
         std::cout << g->mqb;
