@@ -419,7 +419,7 @@ void make_move(struct board *b) {
 
 //misère_quotient updates the misère quotient of g (mqa, mqb, mqc, mqd) based on the monoids of the boards in g
 //running time: O(g->nb)
-void misère_quotient(struct game *g) {
+void misere_quotient(struct game *g) {
     int i = g->nb;
     g->cur = g->first;
     g->mqa = 0;
@@ -517,7 +517,7 @@ void ai_move(struct board *b, int p) {
 //between_turns finds whether the game has ended or not. If it has (ie. all boards are dead), it returns 0 and 1 otherwise
 //running time O(g->nb)
 int between_turns(struct game *g) {
-    misère_quotient(g);
+    misere_quotient(g);
     g->cur = g->first;
     int db = 0;
     while (db < g->nb and g->cur->dead == 1) {
@@ -608,7 +608,7 @@ void ai_move2(struct game *g) {
         } else {
             ai_move(g->cur, r%9);
             int d = g->cur->depth;
-            misère_quotient(g);
+            misere_quotient(g);
             g->cur = g->first;
             while (d > 1) {
                 d--;
