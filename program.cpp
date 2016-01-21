@@ -5,6 +5,7 @@
 //
 
 #include <iostream>
+using namespace std;
 
 //The following constants determine what board corresponds to which monoid. 0's represents blanks and 1's represent X's.
 //Only live (ie. no 3 X's in a row) boards are shown. Dead boards always correspond to 1.
@@ -395,11 +396,11 @@ void monoid(struct board *b) {
 //running time O(1)
 void make_move(struct board *b) {
     int move = 0;
-    std::cout << "Which box will you put an x in?[1-9]\n";
+    cout << "Which box will you put an x in?[1-9]\n";
     while (move < 1 or move > 9 or b->first[move-1] == 'X') {
-        std::cin >> move;
+        cin >> move;
         if (b->first[move-1] == 'X') {
-            std::cout << "Invalid move (box filled)";
+            cout << "Invalid move (box filled)";
         }
     }
     b->first[move-1] = 'X';
@@ -408,12 +409,12 @@ void make_move(struct board *b) {
         monoid(b);
     }
     if (/* DISABLES CODE - CAN BE CHANGED TO 1 TO PRINT THE MONOID AS A STRING */ (0)) {
-        std::cout << "The monoid (a,b,c,d) for this board is: ";
-        std::cout << b->ma;
-        std::cout << b->mb;
-        std::cout << b->mc;
-        std::cout << b->md;
-        std::cout << "\n";
+        cout << "The monoid (a,b,c,d) for this board is: ";
+        cout << b->ma;
+        cout << b->mb;
+        cout << b->mc;
+        cout << b->md;
+        cout << "\n";
     }
 }
 
@@ -468,20 +469,20 @@ void misere_quotient(struct game *g) {
 //draw_board first prints the number of the board, if it is dead, and then prints a 3x3 grid of either 'X' or '_' based on the board b
 //running time O(n)
 void draw_board(char values[9], int depth, int dead) {
-    std::cout << "\nBoard "; std::cout << depth;
+    cout << "\nBoard "; cout << depth;
     if (dead) {
-        std::cout << " (DEAD)";
+        cout << " (DEAD)";
     }
-    std::cout << "\n";
-    std::cout << values[0]; std::cout << " ";
-    std::cout << values[1]; std::cout << " ";
-    std::cout << values[2]; std::cout << " \n";
-    std::cout << values[3]; std::cout << " ";
-    std::cout << values[4]; std::cout << " ";
-    std::cout << values[5]; std::cout << " \n";
-    std::cout << values[6]; std::cout << " ";
-    std::cout << values[7]; std::cout << " ";
-    std::cout << values[8]; std::cout << " \n";
+    cout << "\n";
+    cout << values[0]; cout << " ";
+    cout << values[1]; cout << " ";
+    cout << values[2]; cout << " \n";
+    cout << values[3]; cout << " ";
+    cout << values[4]; cout << " ";
+    cout << values[5]; cout << " \n";
+    cout << values[6]; cout << " ";
+    cout << values[7]; cout << " ";
+    cout << values[8]; cout << " \n";
 }
 
 //draw_game draws every board in g using the draw_board function
@@ -495,12 +496,12 @@ void draw_game(struct game *g) {
         g->cur = g->cur->next;
     }
     if (/* DISABLES CODE - CAN BE CHANGED TO 1 TO PRINT THE MISÈRE QUOTIENT AS A STRING */ (0)) {
-        std::cout << "The misère quotient (a,b,c,d) for this game is: ";
-        std::cout << g->mqa;
-        std::cout << g->mqb;
-        std::cout << g->mqc;
-        std::cout << g->mqd;
-        std::cout << "\n";
+        cout << "The misère quotient (a,b,c,d) for this game is: ";
+        cout << g->mqa;
+        cout << g->mqb;
+        cout << g->mqc;
+        cout << g->mqd;
+        cout << "\n";
     }
 }
 
@@ -536,20 +537,20 @@ int between_turns(struct game *g) {
 int player_move(struct game *g) {
     g->cur = g->first;
     int bn = 0;
-    std::cout << "\nWhich board do you want to move on?";
+    cout << "\nWhich board do you want to move on?";
     do {
-        std::cout << "\nEnter a positive integer no greater than the number of boards, ";
-        std::cout << g->nb;
-        std::cin >> bn;
-        std::cout << "\nYou have selected board number ";
-        std::cout << bn;
+        cout << "\nEnter a positive integer no greater than the number of boards, ";
+        cout << g->nb;
+        cin >> bn;
+        cout << "\nYou have selected board number ";
+        cout << bn;
     } while (bn < 1 or bn > g->nb);
     while (bn > 1) {
         bn--;
         g->cur = g->cur->next;
     }
     if (g->cur->dead == 1) {
-        std::cout << "\nYou have selected a dead board. Select another one.\n\n";
+        cout << "\nYou have selected a dead board. Select another one.\n\n";
         player_move(g);
         return 0;
     }
@@ -580,10 +581,10 @@ void ai_move1(struct game *g) {
         }
     }
     ai_move(g->cur, r);
-    std::cout << "The AI has moved on board ";
-    std::cout << g->cur->depth;
-    std::cout << " on box ";
-    std::cout << r+1;
+    cout << "The AI has moved on board ";
+    cout << g->cur->depth;
+    cout << " on box ";
+    cout << r+1;
 }
 
 //ai_move2 is used by the hard AI to find a random winning move, call ai_move to make the move, and prints the board and position it played on.
@@ -618,10 +619,10 @@ void ai_move2(struct game *g) {
                 (g->mqa == 0 and g->mqb == 1 and g->mqc == 1 and g->mqd == 0) or
                 (g->mqa == 0 and g->mqb == 0 and g->mqc == 2 and g->mqd == 0) or
                 (g->mqa == 0 and g->mqb == 2 and g->mqc == 0 and g->mqd == 0)) {
-                std::cout << "The AI has moved on board ";
-                std::cout << g->cur->depth;
-                std::cout << " on box ";
-                std::cout << r%9+1;
+                cout << "The AI has moved on board ";
+                cout << g->cur->depth;
+                cout << " on box ";
+                cout << r%9+1;
                 return;
             }
             else {
@@ -643,30 +644,30 @@ int main(int argc, const char * argv[]) {
     struct game g = {0,0,0,0,0,0,0};
     //player enters the number of boards
     do {
-        std::cout << "Enter a positive integer to be the number of boards.";
-        std::cin >> g.nb;
-        std::cout << "You have selected ";
-        std::cout << g.nb;
-        std::cout << " boards. \n\n";
+        cout << "Enter a positive integer to be the number of boards.";
+        cin >> g.nb;
+        cout << "You have selected ";
+        cout << g.nb;
+        cout << " boards. \n\n";
     } while (g.nb < 1);
     initialize_game(&g);
     //player chooses the options (against ai or human, and if ai, whether they want to go first and the difficulty)
-    std::cout << "Enter y if you want to play against the ai.";
-    std::cin >> ai;
+    cout << "Enter y if you want to play against the ai.";
+    cin >> ai;
     
     if (ai == 'y') {
         do {
-            std::cout << "\nEnter the ai difficulty.\n1 = easy, 2 = hard";
-            std::cin >> diff;
-            std::cout << "\nYou have selected difficulty level ";
-            std::cout << diff;
+            cout << "\nEnter the ai difficulty.\n1 = easy, 2 = hard";
+            cin >> diff;
+            cout << "\nYou have selected difficulty level ";
+            cout << diff;
         } while (diff < 1 or diff > 2);
         do {
-            std::cout << "\nEnter 1 to be player 1, or 2 to be player 2.";
-            std::cin >> player;
+            cout << "\nEnter 1 to be player 1, or 2 to be player 2.";
+            cin >> player;
         } while (player < 1 or player > 2);
-        std::cout << "\nYou are player ";
-        std::cout << player;
+        cout << "\nYou are player ";
+        cout << player;
         //The player and ai play until all boards are dead
         if (diff == 1 and player == 1) {
             while (between_turns(&g)) {
@@ -714,7 +715,7 @@ int main(int argc, const char * argv[]) {
         //Two players play until all boards are dead
         while (between_turns(&g)) {
             draw_game(&g);
-            std::cout << "\nIt is player "; std::cout << (player+1)%2+1; std::cout << "'s turn\n";
+            cout << "\nIt is player "; cout << (player+1)%2+1; cout << "'s turn\n";
             player_move(&g);
             player++;
         }
@@ -722,9 +723,9 @@ int main(int argc, const char * argv[]) {
     //The winner is determined
     draw_game(&g);
     if (player%2 == 0) {
-        std::cout << "\nPLAYER 2 WINS!\n";
+        cout << "\nPLAYER 2 WINS!\n";
     } else {
-        std::cout << "\nPLAYER 1 WINS!\n";
+        cout << "\nPLAYER 1 WINS!\n";
     }
-    std::cout << "\nGAME OVER.";
+    cout << "\nGAME OVER.";
 }
