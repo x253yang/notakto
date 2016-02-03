@@ -259,15 +259,15 @@ void initialize_game(struct game *g) {
 }
 
 /* THIS FUNCTION IS UNUSED
-void destroy_board(struct board *b) {
-    while(b) {
-        destroy_board(b->next);
-        if (b->first) {
-            delete b->first;
-        }
-        delete b;
-    }
-}*/
+ void destroy_board(struct board *b) {
+ while(b) {
+ destroy_board(b->next);
+ if (b->first) {
+ delete b->first;
+ }
+ delete b;
+ }
+ }*/
 
 //dead takes a board b and if b is dead, changes b->dead to 1 and gives it the monoid 1
 //running time O(1)
@@ -313,83 +313,83 @@ void monoid(struct board *b) {
         b->mc = 2;
         b->md = 0;
     } else if
-    (equal9(b->first, c1)) {
-        b->ma = 0;
-        b->mb = 0;
-        b->mc = 1;
-        b->md = 0;
-    } else if
-    (equal9(b->first, d1) or equal9(b->first, d7) or
-     equal9(b->first, d2) or equal9(b->first, d8) or
-     equal9(b->first, d3) or equal9(b->first, d9) or
-     equal9(b->first, d4) or equal9(b->first, d10) or
-     equal9(b->first, d5) or equal9(b->first, d11) or
-     equal9(b->first, d6) or equal9(b->first, d12)) {
-        b->ma = 0;
-        b->mb = 0;
-        b->mc = 0;
-        b->md = 1;
-    } else if
-    (equal9(b->first, ad1) or
-     equal9(b->first, ad2) or
-     equal9(b->first, ad3) or
-     equal9(b->first, ad4)) {
-        b->ma = 1;
-        b->mb = 0;
-        b->mc = 0;
-        b->md = 1;
-    } else if
-    (equal9(b->first, b1) or equal9(b->first, b21) or
-     equal9(b->first, b2) or equal9(b->first, b22) or
-     equal9(b->first, b3) or equal9(b->first, b23) or
-     equal9(b->first, b4) or equal9(b->first, b24) or
-     equal9(b->first, b5) or equal9(b->first, b25) or
-     equal9(b->first, b6) or equal9(b->first, b26) or
-     equal9(b->first, b7) or equal9(b->first, b27) or
-     equal9(b->first, b8) or equal9(b->first, b28) or
-     equal9(b->first, b9) or equal9(b->first, b29) or
-     equal9(b->first, b10) or equal9(b->first, b30) or
-     equal9(b->first, b11) or equal9(b->first, b31) or
-     equal9(b->first, b12) or equal9(b->first, b32) or
-     equal9(b->first, b13) or equal9(b->first, b33) or
-     equal9(b->first, b14) or equal9(b->first, b34) or
-     equal9(b->first, b15) or equal9(b->first, b35) or
-     equal9(b->first, b16) or equal9(b->first, b36) or
-     equal9(b->first, b17) or equal9(b->first, b37) or
-     equal9(b->first, b18) or equal9(b->first, b38) or
-     equal9(b->first, b19) or equal9(b->first, b39) or
-     equal9(b->first, b20) or equal9(b->first, b40) or
-     equal9(b->first, b41) or equal9(b->first, b42)) {
-        b->ma = 0;
-        b->mb = 1;
-        b->mc = 0;
-        b->md = 0;
-    } else if
-    (equal9(b->first, o1) or equal9(b->first, o4) or
-     equal9(b->first, o2) or equal9(b->first, o5) or
-     equal9(b->first, o3) or equal9(b->first, o6)) {
-        b->ma = 0;
-        b->mb = 0;
-        b->mc = 0;
-        b->md = 0;
-    } else if
-    (equal9(b->first, ab1) or equal9(b->first, ab8) or
-     equal9(b->first, ab2) or equal9(b->first, ab9) or
-     equal9(b->first, ab3) or equal9(b->first, ab10) or
-     equal9(b->first, ab4) or equal9(b->first, ab11) or
-     equal9(b->first, ab5) or equal9(b->first, ab12) or
-     equal9(b->first, ab6) or equal9(b->first, ab13) or
-     equal9(b->first, ab7) or equal9(b->first, ab14)) {
-        b->ma = 1;
-        b->mb = 1;
-        b->mc = 0;
-        b->md = 0;
-    } else {
-        b->ma = 1;
-        b->mb = 0;
-        b->mc = 0;
-        b->md = 0;
-    }
+        (equal9(b->first, c1)) {
+            b->ma = 0;
+            b->mb = 0;
+            b->mc = 1;
+            b->md = 0;
+        } else if
+            (equal9(b->first, d1) or equal9(b->first, d7) or
+             equal9(b->first, d2) or equal9(b->first, d8) or
+             equal9(b->first, d3) or equal9(b->first, d9) or
+             equal9(b->first, d4) or equal9(b->first, d10) or
+             equal9(b->first, d5) or equal9(b->first, d11) or
+             equal9(b->first, d6) or equal9(b->first, d12)) {
+                b->ma = 0;
+                b->mb = 0;
+                b->mc = 0;
+                b->md = 1;
+            } else if
+                (equal9(b->first, ad1) or
+                 equal9(b->first, ad2) or
+                 equal9(b->first, ad3) or
+                 equal9(b->first, ad4)) {
+                    b->ma = 1;
+                    b->mb = 0;
+                    b->mc = 0;
+                    b->md = 1;
+                } else if
+                    (equal9(b->first, b1) or equal9(b->first, b21) or
+                     equal9(b->first, b2) or equal9(b->first, b22) or
+                     equal9(b->first, b3) or equal9(b->first, b23) or
+                     equal9(b->first, b4) or equal9(b->first, b24) or
+                     equal9(b->first, b5) or equal9(b->first, b25) or
+                     equal9(b->first, b6) or equal9(b->first, b26) or
+                     equal9(b->first, b7) or equal9(b->first, b27) or
+                     equal9(b->first, b8) or equal9(b->first, b28) or
+                     equal9(b->first, b9) or equal9(b->first, b29) or
+                     equal9(b->first, b10) or equal9(b->first, b30) or
+                     equal9(b->first, b11) or equal9(b->first, b31) or
+                     equal9(b->first, b12) or equal9(b->first, b32) or
+                     equal9(b->first, b13) or equal9(b->first, b33) or
+                     equal9(b->first, b14) or equal9(b->first, b34) or
+                     equal9(b->first, b15) or equal9(b->first, b35) or
+                     equal9(b->first, b16) or equal9(b->first, b36) or
+                     equal9(b->first, b17) or equal9(b->first, b37) or
+                     equal9(b->first, b18) or equal9(b->first, b38) or
+                     equal9(b->first, b19) or equal9(b->first, b39) or
+                     equal9(b->first, b20) or equal9(b->first, b40) or
+                     equal9(b->first, b41) or equal9(b->first, b42)) {
+                        b->ma = 0;
+                        b->mb = 1;
+                        b->mc = 0;
+                        b->md = 0;
+                    } else if
+                        (equal9(b->first, o1) or equal9(b->first, o4) or
+                         equal9(b->first, o2) or equal9(b->first, o5) or
+                         equal9(b->first, o3) or equal9(b->first, o6)) {
+                            b->ma = 0;
+                            b->mb = 0;
+                            b->mc = 0;
+                            b->md = 0;
+                        } else if
+                            (equal9(b->first, ab1) or equal9(b->first, ab8) or
+                             equal9(b->first, ab2) or equal9(b->first, ab9) or
+                             equal9(b->first, ab3) or equal9(b->first, ab10) or
+                             equal9(b->first, ab4) or equal9(b->first, ab11) or
+                             equal9(b->first, ab5) or equal9(b->first, ab12) or
+                             equal9(b->first, ab6) or equal9(b->first, ab13) or
+                             equal9(b->first, ab7) or equal9(b->first, ab14)) {
+                                b->ma = 1;
+                                b->mb = 1;
+                                b->mc = 0;
+                                b->md = 0;
+                            } else {
+                                b->ma = 1;
+                                b->mb = 0;
+                                b->mc = 0;
+                                b->md = 0;
+                            }
 }
 
 //make_move allows the player to choose a box to mark an X in given that they decided to move on board b
@@ -643,29 +643,31 @@ int main(int argc, const char * argv[]) {
     char ai = 'n';
     struct game g = {0,0,0,0,0,0,0};
     //player enters the number of boards
-    do {
-        cout << "Enter a positive integer to be the number of boards.";
-        cin >> g.nb;
-        cout << "You have selected ";
-        cout << g.nb;
-        cout << " boards. \n\n";
-    } while (g.nb < 1);
+    cout << "Enter a positive integer to be the number of boards." << endl;
+    while ( !(cin >> g.nb) || g.nb < 1 ) {
+        cin.clear();
+        cin.ignore();
+        cout << "Enter a positive integer to be the number of boards." << endl;
+    }
+    cout << "You have selected " << g.nb << " boards\n\n";
     initialize_game(&g);
     //player chooses the options (against ai or human, and if ai, whether they want to go first and the difficulty)
     cout << "Enter y if you want to play against the ai.";
     cin >> ai;
     
     if (ai == 'y') {
-        do {
+        cout << "\nEnter the ai difficulty.\n1 = easy, 2 = hard";
+        while ( !(cin >> diff) || diff < 1 || diff > 2 ) {
+            cin.clear();
+            cin.ignore();
             cout << "\nEnter the ai difficulty.\n1 = easy, 2 = hard";
-            cin >> diff;
-            cout << "\nYou have selected difficulty level ";
-            cout << diff;
-        } while (diff < 1 or diff > 2);
-        do {
+        }
+        cout << "\nEnter 1 to be player 1, or 2 to be player 2.";
+        while ( !(cin >> player) || player < 1 || player > 2 ) {
+            cin.clear();
+            cin.ignore();
             cout << "\nEnter 1 to be player 1, or 2 to be player 2.";
-            cin >> player;
-        } while (player < 1 or player > 2);
+        }
         cout << "\nYou are player ";
         cout << player;
         //The player and ai play until all boards are dead
